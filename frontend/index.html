@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AccessCore | Enterprise IAM & Zero-Trust Access Gateway</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-shield">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <div class="brand-info">
+          <h2>AccessCore</h2>
+          <span class="badge-iam">ZERO-TRUST IAM v1.0</span>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <button class="nav-item active" data-tab="directory">
+          <span class="icon">👥</span> User Directory
+        </button>
+        <button class="nav-item" data-tab="roles">
+          <span class="icon">🛡️</span> Roles & Permissions
+        </button>
+        <button class="nav-item" data-tab="audit">
+          <span class="icon">📜</span> Security Audit Trail
+        </button>
+      </nav>
+
+      <div class="sidebar-status">
+        <span class="status-indicator"></span>
+        <span>HMAC Key Rotation: Enforced</span>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-title">
+          <h1 id="viewTitle">Directory & Identity Management</h1>
+          <p id="viewSubtitle">Enterprise identity federation, JWT claim verification, and role assignments</p>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn btn-secondary" id="refreshBtn">↻ Refresh</button>
+          <button class="btn btn-primary" id="openRegisterModal">+ Provision User</button>
+        </div>
+      </header>
+
+      <!-- TAB 1: USER DIRECTORY -->
+      <section class="tab-view active" id="tabDirectory">
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Identity / Email</th>
+                <th>Full Name</th>
+                <th>Assigned Roles</th>
+                <th>Security State</th>
+                <th>Provisioned Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody">
+              <tr><td colspan="6" class="text-center text-muted">Loading identity directory...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TAB 2: ROLES & PERMISSIONS -->
+      <section class="tab-view" id="tabRoles">
+        <div class="roles-grid" id="rolesGrid">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- TAB 3: AUDIT LOGS -->
+      <section class="tab-view" id="tabAudit">
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Event Type</th>
+                <th>Actor Identity</th>
+                <th>Status</th>
+                <th>Audit Context & Telemetry</th>
+              </tr>
+            </thead>
+            <tbody id="auditTableBody">
+              <tr><td colspan="5" class="text-center text-muted">Loading security logs...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal: Provision User -->
+  <div class="modal-overlay" id="registerModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Provision New Identity</h3>
+        <button class="btn-close" id="closeRegisterBtn">&times;</button>
+      </div>
+      <form id="registerForm">
+        <div class="field">
+          <label>Full Legal Name *</label>
+          <input type="text" id="regName" required placeholder="e.g. John Doe">
+        </div>
+        <div class="field">
+          <label>Corporate Email *</label>
+          <input type="email" id="regEmail" required placeholder="j.doe@enterprise.internal">
+        </div>
+        <div class="field">
+          <label>Initial Master Password *</label>
+          <input type="password" id="regPassword" required minlength="8" placeholder="Minimum 8 characters">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelRegisterBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Identity</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Edit Roles -->
+  <div class="modal-overlay" id="editRolesModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="editRolesTitle">Manage Roles</h3>
+        <button class="btn-close" id="closeRolesBtn">&times;</button>
+      </div>
+      <form id="editRolesForm">
+        <input type="hidden" id="editUserId">
+        <div class="roles-selector-group" id="rolesCheckboxes">
+          <!-- Populated by JS -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelRolesBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Update Authorization</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  accesscore-api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - ACCESSCORE_ENV=production
+      - ACCESSCORE_PORT=8000
+      - ACCESSCORE_SECRET_KEY=prod-iam-zero-trust-hmac-master-key-replace-in-env
+    volumes:
+      - accesscore_data:/app/backend/data
+    restart: unless-stopped
+
+volumes:
+  accesscore_data:
